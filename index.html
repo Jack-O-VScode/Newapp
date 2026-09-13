@@ -347,7 +347,7 @@ p{margin:0}
             <li><span><b>Windows 10 or 11</b> &mdash; Home or Pro, any version</span></li>
             <li><span><b>Handled end to end</b> &mdash; nothing left for you to figure out afterwards</span></li>
             <li><span><b>Controller or sim racing wheel</b> connected, mapped and tested</span></li>
-            <li><span><b>You watch the whole session</b> over AnyDesk or TeamViewer</span></li>
+            <li><span><b>Windows Quick Assist</b> &mdash; nothing to download, it's already on your PC</span></li>
           </ul>
           <div class="note">
             <p><b>Before we start:</b> close anything private on your PC. You stay at the keyboard,
@@ -388,7 +388,7 @@ p{margin:0}
           time, done &mdash; no waiting on me to reply first.</p>
         <ol class="path-steps">
           <li>Pay and choose a slot, shown in your own timezone</li>
-          <li>I connect at the booked time over AnyDesk or TeamViewer</li>
+          <li>I connect at the booked time using Windows Quick Assist</li>
           <li>You're racing before the session ends</li>
         </ol>
         <a class="btn btn-primary" id="pathPay" href="#shop">Pay &amp; book</a>
@@ -574,9 +574,11 @@ p{margin:0}
       </details>
       <details>
         <summary>Is it safe to let you remote into my PC?</summary>
-        <p>You stay at the keyboard the whole time and watch everything I do. Sessions run over AnyDesk
-           or TeamViewer, you approve the connection, and you can end it in one click at any point.
-           Close anything private before we start &mdash; I'd rather you were careful.</p>
+        <p>Sessions run over <b>Windows Quick Assist</b> &mdash; Microsoft's own tool, already built into
+           Windows 10 and 11. There's nothing to download and no third-party remote software to trust.
+           You generate the code and give it to me, so the connection only happens because you started it.
+           You stay at the keyboard watching everything I do and can end the session in one click at any
+           point. Close anything private before we begin &mdash; I'd rather you were careful.</p>
       </details>
       <details>
         <summary>What if something goes wrong?</summary>
@@ -640,7 +642,7 @@ p{margin:0}
   // Stripe is actually connected on the Cal event - the button then reads
   // "Book a session" instead of promising a payment step that won't happen.
   var BOOK_URL = "https://cal.com/wang-jiayi-johnny-dqqk6b/wmmt6-setup";
-  var PRICE    = "";
+  var PRICE    = "S$25";
   // ---------------------------------------------------------------------
 
   var priceEl = document.getElementById("wmmtPrice");
