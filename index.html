@@ -184,7 +184,8 @@ p{margin:0}
 @media (max-width:560px){.score{border-right:0;border-bottom:1px solid var(--line);padding-right:0;padding-bottom:18px;width:100%}}
 .chips{display:flex;flex-wrap:wrap;gap:8px;flex:1}
 .chip{font-size:13px;border:1px solid var(--line);padding:7px 12px;color:var(--bone);background:var(--ink-3)}
-.chip em{font-style:normal;font-family:var(--mono);color:var(--red-hot);margin-left:7px;font-size:12px}
+.chip em{font-style:normal;font-family:var(--mono);color:var(--red-hot);margin-left:7px;
+  font-size:12px;font-variant-numeric:tabular-nums}
 
 .revs{display:grid;gap:16px;margin-top:20px}
 @media (min-width:760px){.revs{grid-template-columns:repeat(3,1fr)}}
@@ -433,13 +434,16 @@ p{margin:0}
         <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
         <small>64 reviews</small>
       </div>
-      <!-- EDIT ME: badge labels from your Carousell profile. Counts are real; confirm the labels. -->
+      <!-- Badges given by buyers only, highest first. The three earned as a buyer
+           (from sellers APEX MART bought from) are deliberately left out - they say
+           nothing about selling. -->
       <div class="chips">
-        <span class="chip">Great communication</span>
-        <span class="chip">High quality</span>
-        <span class="chip">Value for money</span>
-        <span class="chip">Above and beyond</span>
-        <span class="chip">Unique listings</span>
+        <span class="chip">Fast response <em>28</em></span>
+        <span class="chip">Great communication <em>13</em></span>
+        <span class="chip">Unique listings <em>10</em></span>
+        <span class="chip">Above and beyond <em>8</em></span>
+        <span class="chip">High quality <em>4</em></span>
+        <span class="chip">Value for money <em>3</em></span>
       </div>
     </div>
 
