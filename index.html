@@ -8,7 +8,16 @@
 <meta property="og:title" content="APEX MART">
 <meta property="og:description" content="Steam wallet codes in any region and remote WMMT6 PC setup. 4.75 stars across 64 reviews.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/logo.png">
+<!-- Relative path resolves for most scrapers. Swap in the full https://... URL
+     once the domain is settled and every platform will resolve it. -->
+<meta property="og:image" content="assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="APEX MART">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="APEX MART">
+<meta name="twitter:description" content="Steam wallet codes in any region and remote WMMT6 PC setup. 4.75 stars across 64 reviews.">
+<meta name="twitter:image" content="assets/og.png">
 <meta name="theme-color" content="#08080A">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -593,6 +602,13 @@ p{margin:0}
            there at the booked time. If nothing on the calendar suits you, message me and I'll open a slot.</p>
       </details>
       <details>
+        <summary>What's your refund policy?</summary>
+        <p><b>Setup sessions:</b> full refund if the game turns out not to be compatible with your PC,
+           and a full refund if I can't get it working because of an error on my end. Need to
+           reschedule? Message me before your slot and I'll move it free of charge.<br>
+           <b>Steam codes:</b> if a code doesn't redeem, I'll replace it or refund it.</p>
+      </details>
+      <details>
         <summary>Is it safe to let you remote into my PC?</summary>
         <p>Sessions run over <b>Windows Quick Assist</b> &mdash; Microsoft's own tool, already built into
            Windows 10 and 11. There's nothing to download and no third-party remote software to trust.
@@ -653,6 +669,21 @@ p{margin:0}
 <script>
 (function () {
   "use strict";
+
+  // ---- Cloudflare Web Analytics ---------------------------------------
+  // Free, cookieless, no banner needed. Get a token from the Cloudflare
+  // dashboard: Analytics -> Web Analytics -> Add a site. Empty means no
+  // beacon is loaded at all, so the page stays clean until you want it.
+  // On a Cloudflare Pages project you may be able to switch this on from
+  // the Pages dashboard instead, without needing a token here.
+  var ANALYTICS_TOKEN = "";
+  if (ANALYTICS_TOKEN) {
+    var beacon = document.createElement("script");
+    beacon.defer = true;
+    beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN }));
+    document.head.appendChild(beacon);
+  }
   // ---- Booking for the WMMT6 setup -----------------------------------
   // BOOK_URL is the Cal.com page. Cal handles slot choice and payment in
   // one flow, so this is the only link needed. Empty = the buttons fall

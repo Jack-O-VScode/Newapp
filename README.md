@@ -17,6 +17,8 @@ Everything is in `index.html`. The bits you'll most likely want to change:
 - **Contact** — Instagram handle appears in 3 places; email is assembled in
   the script at the bottom to slow down scrapers.
 - **Products** — the two `<article class="prod">` blocks.
+- **Analytics** — `ANALYTICS_TOKEN` at the top of the script. Cloudflare Web
+  Analytics token; empty means no beacon loads at all.
 - **Orders** — `FORM_KEY` at the top of the script. A free Web3Forms access
   key (web3forms.com). Empty = the Send button falls back to opening the
   visitor's email app instead of posting the order.
