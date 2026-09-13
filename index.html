@@ -186,6 +186,9 @@ p{margin:0}
 @media (min-width:520px){.row2{grid-template-columns:1fr 1fr}}
 .form-actions{display:flex;flex-wrap:wrap;gap:10px}
 .status{font-family:var(--mono);font-size:12.5px;color:var(--go);min-height:18px}
+.status.err{color:var(--red-hot)}
+.hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;
+  opacity:0!important;pointer-events:none}
 
 .pay{background:var(--ink-2);border:1px solid var(--line-soft);padding:26px;display:flex;flex-direction:column;gap:16px}
 .pay h3{font-size:18px}
@@ -403,8 +406,8 @@ p{margin:0}
     <h2>Tell me what you need</h2>
     <p class="lede" style="margin-top:14px">This is for Steam codes and anything you want to ask about
       first &mdash; setup sessions can be <a href="#shop" style="color:var(--red-hot)">booked and paid for
-      directly</a>. Fill it in and it builds your message; send it by email or paste it into a DM.
-      Nothing is submitted from this page.</p>
+      directly</a>. Fill it in and hit send; it comes straight to me and I'll reply on whichever
+      contact you give.</p>
 
     <div class="order">
       <form class="form" id="orderForm">
@@ -429,16 +432,19 @@ p{margin:0}
           </div>
         </div>
         <div class="field">
-          <label for="contact">Your contact</label>
-          <input id="contact" name="contact" type="text" placeholder="Instagram handle, email or Discord" autocomplete="off">
+          <label for="contact">Your contact <span style="color:var(--red-hot)">*</span></label>
+          <input id="contact" name="contact" type="text" required
+                 placeholder="Instagram handle, email or Discord" autocomplete="off">
+          <span class="hint">Required &mdash; it's how I get back to you.</span>
         </div>
         <div class="field">
           <label for="notes">Anything else</label>
           <textarea id="notes" name="notes" placeholder="Timezone, preferred payment method, deadline&hellip;"></textarea>
         </div>
+        <label class="hp" aria-hidden="true">Leave this empty
+          <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off"></label>
         <div class="form-actions">
-          <button class="btn btn-primary" type="submit">Send by email</button>
-          <button class="btn btn-ghost" type="button" id="copyBtn">Copy order</button>
+          <button class="btn btn-primary" type="submit" id="sendBtn">Send order</button>
           <a class="btn btn-ghost" href="https://instagram.com/jack_o_ig" target="_blank" rel="noopener">DM on Instagram</a>
         </div>
         <p class="status" id="status" role="status"></p>
@@ -686,13 +692,64 @@ p{margin:0}
     return lines.join("\n");
   }
 
+  // ---- Where orders go ------------------------------------------------
+  // Paste a Web3Forms access key and Send posts orders straight to your
+  // inbox. Get one free at web3forms.com - type in your email, they send
+  // you the key, no account to create.
+  // Left empty, Send falls back to opening the visitor's email app, so an
+  // order is never silently swallowed.
+  var FORM_KEY = "";
+  // ---------------------------------------------------------------------
+
+  var sendBtn = document.getElementById("sendBtn");
+
+  function say(msg, isError) {
+    status.textContent = msg;
+    status.classList.toggle("err", !!isError);
+  }
+
+  function mailtoFallback() {
+    window.location.href = "mailto:" + addr +
+      "?subject=" + encodeURIComponent("APEX MART order - " + productEl.value) +
+      "&body=" + encodeURIComponent(compose());
+    say("Opening your email app\u2026 if nothing happens, DM me instead.");
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    var subject = "APEX MART order - " + productEl.value;
-    window.location.href = "mailto:" + addr +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(compose());
-    status.textContent = "Opening your email app… if nothing happens, use Copy order.";
+    if (!FORM_KEY) { mailtoFallback(); return; }
+
+    var d = new FormData(form);
+    sendBtn.disabled = true;
+    say("Sending\u2026");
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: FORM_KEY,
+        subject: "APEX MART order \u2014 " + productEl.value,
+        from_name: "APEX MART website",
+        botcheck: document.getElementById("botcheck").checked,
+        product: d.get("product"),
+        region: d.get("region") || "-",
+        amount: d.get("amount") || "-",
+        contact: d.get("contact"),
+        notes: d.get("notes") || "-",
+        message: compose()
+      })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res || !res.success) { throw new Error("rejected"); }
+        form.reset();
+        syncFields();
+        say("Order sent. I'll get back to you on the contact you gave \u2014 usually within a few hours.");
+      })
+      .catch(function () {
+        say("That didn't send. DM me on Instagram or Discord and I'll sort it.", true);
+      })
+      .then(function () { sendBtn.disabled = false; });
   });
 
   function copyText(text, okMsg) {
@@ -709,33 +766,6 @@ p{margin:0}
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, fallback);
     } else { fallback(); }
-  }
-
-  document.getElementById("copyBtn").addEventListener("click", function () {
-    copyText(compose(), "Order copied — paste it into a DM.");
-  });
-
-  // Gentle lift as blocks scroll in. Only applied to things that start below
-  // the fold, so the page is complete on first paint either way.
-  if (window.IntersectionObserver &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    var blocks = [].slice.call(document.querySelectorAll(
-      ".prod, .step, .rev, .form, .pay, .rating-head, .faq details"));
-    var below = blocks.filter(function (el) {
-      return el.getBoundingClientRect().top > window.innerHeight * 0.92;
-    });
-    if (below.length) {
-      below.forEach(function (el) { el.classList.add("reveal"); });
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) {
-            en.target.classList.add("shown");
-            io.unobserve(en.target);
-          }
-        });
-      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
-      below.forEach(function (el) { io.observe(el); });
-    }
   }
 
   document.addEventListener("click", function (e) {
