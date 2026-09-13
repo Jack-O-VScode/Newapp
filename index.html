@@ -434,8 +434,14 @@ p{margin:0}
         <div class="field">
           <label for="contact">Your contact <span style="color:var(--red-hot)">*</span></label>
           <input id="contact" name="contact" type="text" required
-                 placeholder="Instagram handle, email or Discord" autocomplete="off">
-          <span class="hint">Required &mdash; it's how I get back to you.</span>
+                 placeholder="Instagram handle or Discord" autocomplete="off">
+          <span class="hint">However you'd prefer I reply.</span>
+        </div>
+        <div class="field">
+          <label for="email">Email address <span style="color:var(--red-hot)">*</span></label>
+          <input id="email" name="email" type="email" required
+                 placeholder="you@example.com" autocomplete="email">
+          <span class="hint">A backup, in case your handle doesn't reach you.</span>
         </div>
         <div class="field">
           <label for="notes">Anything else</label>
@@ -688,6 +694,7 @@ p{margin:0}
       lines.push("Amount: " + (d.get("amount") || "(not specified)"));
     }
     lines.push("Contact me on: " + (d.get("contact") || "(not specified)"));
+    lines.push("Email: " + (d.get("email") || "(not specified)"));
     if (d.get("notes")) { lines.push("", "Notes: " + d.get("notes")); }
     return lines.join("\n");
   }
@@ -735,6 +742,7 @@ p{margin:0}
         region: d.get("region") || "-",
         amount: d.get("amount") || "-",
         contact: d.get("contact"),
+        email: d.get("email"),
         notes: d.get("notes") || "-",
         message: compose()
       })
