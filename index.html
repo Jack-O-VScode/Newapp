@@ -119,7 +119,26 @@ p{margin:0}
 .spec li::before{content:"";flex:none;width:7px;height:7px;margin-top:7px;background:var(--red);
   clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .spec b{color:var(--bone);font-weight:600}
-.prod .btn{margin-top:auto;align-self:flex-start}
+.prod-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.price{font-family:var(--display);font-weight:900;font-size:27px;line-height:1;color:var(--bone);
+  font-variant-numeric:tabular-nums}
+.prod-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:4px}
+.prod-foot{font-size:13px;color:var(--smoke-2)}
+.prod-foot a{color:var(--red-hot)}
+.prod .btn{align-self:flex-start}
+
+/* ---------- two buying paths ---------- */
+.paths{display:grid;gap:20px;margin-top:30px}
+@media (min-width:820px){.paths{grid-template-columns:1fr 1fr}}
+.path{background:var(--ink-2);border:1px solid var(--line-soft);padding:26px;
+  display:flex;flex-direction:column;gap:14px}
+.path--instant{border-color:var(--red-dim)}
+.path-why{font-size:14.5px;color:var(--smoke)}
+.path-steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:12px}
+.path-steps li{counter-increment:s;display:flex;gap:12px;font-size:14.5px;color:var(--bone)}
+.path-steps li::before{content:counter(s);flex:none;width:22px;height:22px;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;color:var(--red-hot);border:1px solid var(--red-dim);margin-top:1px}
+.path .btn{margin-top:auto;align-self:flex-start}
 
 .note{display:flex;gap:11px;background:var(--ink-3);border-left:2px solid var(--gold);
   padding:13px 15px;font-size:13.5px;color:var(--smoke)}
@@ -308,14 +327,19 @@ p{margin:0}
             <p><b>Read this first:</b> Steam wallet codes are region-locked. A code only redeems on an
               account set to that same region. Tell me your account's region and I'll make sure you get the right one.</p>
           </div>
-          <a class="btn btn-primary" href="#order">Get a quote</a>
+          <div class="prod-actions">
+            <a class="btn btn-primary" href="#order">Get a quote</a>
+          </div>
         </div>
       </article>
 
       <article class="prod">
         <div class="prod-art art-road"><i></i><i></i><i></i><i></i></div>
         <div class="prod-body">
-          <span class="tag">Remote session</span>
+          <div class="prod-head">
+            <span class="tag">Book instantly</span>
+            <span class="price" id="wmmtPrice" hidden></span>
+          </div>
           <h3>WMMT6 PC setup</h3>
           <p>A guided remote session that takes you from an empty PC to sitting on the start line.
              I work through the whole setup while you watch, and I don't stop until it runs.</p>
@@ -329,7 +353,11 @@ p{margin:0}
             <p><b>Before we start:</b> close anything private on your PC. You stay at the keyboard,
               you approve the connection, and you can end the session in one click.</p>
           </div>
-          <a class="btn btn-primary" href="#order">Book a session</a>
+          <div class="prod-actions">
+            <a class="btn btn-primary" id="wmmtPay" href="#order">Book a session</a>
+            <a class="btn btn-ghost" id="wmmtBook" href="#order" hidden>Check availability</a>
+          </div>
+          <p class="prod-foot">Questions before you book? <a href="#order">Message me first</a>.</p>
         </div>
       </article>
     </div>
@@ -339,16 +367,33 @@ p{margin:0}
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">The process</p>
-    <h2>How ordering works</h2>
-    <div class="steps">
-      <div class="step"><span class="n">STEP 01</span><h3>Message me</h3>
-        <p>Use the form below, email, or an Instagram DM. Tell me the product and any details.</p></div>
-      <div class="step"><span class="n">STEP 02</span><h3>I quote you</h3>
-        <p>You get a price in SGD and a payment link. No obligation until you accept it.</p></div>
-      <div class="step"><span class="n">STEP 03</span><h3>You pay</h3>
-        <p>PayPal, Revolut, card or bank transfer. International buyers, use PayPal Goods &amp; Services.</p></div>
-      <div class="step"><span class="n">STEP 04</span><h3>Delivered</h3>
-        <p>Codes arrive over chat. Setup jobs get a booked time slot that suits your timezone.</p></div>
+    <h2>Two ways to buy</h2>
+    <div class="paths">
+      <div class="path">
+        <p class="eyebrow">Steam wallet codes</p>
+        <h3>Quoted over chat</h3>
+        <p class="path-why">Region and amount change what a code costs me, so these are priced per
+          order rather than off a shelf. It also means I can tell you before you pay whether the
+          region you want is actually available.</p>
+        <ol class="path-steps">
+          <li>Tell me the region and the amount you want</li>
+          <li>I come back with a price and a payment link</li>
+          <li>Code sent over chat, usually within hours</li>
+        </ol>
+        <a class="btn btn-ghost" href="#order">Get a quote</a>
+      </div>
+      <div class="path path--instant">
+        <p class="eyebrow">WMMT6 PC setup</p>
+        <h3>Pay and book instantly</h3>
+        <p class="path-why">Fixed scope and a fixed price, so there's nothing to quote. Pay, pick a
+          time, done &mdash; no waiting on me to reply first.</p>
+        <ol class="path-steps">
+          <li>Pay and choose a slot, shown in your own timezone</li>
+          <li>I connect at the booked time over AnyDesk or TeamViewer</li>
+          <li>You're racing before the session ends</li>
+        </ol>
+        <a class="btn btn-primary" id="pathPay" href="#shop">Pay &amp; book</a>
+      </div>
     </div>
   </div>
 </section>
@@ -357,8 +402,10 @@ p{margin:0}
   <div class="wrap">
     <p class="eyebrow">Order</p>
     <h2>Tell me what you need</h2>
-    <p class="lede" style="margin-top:14px">Fill this in and it builds your message for you &mdash; then send it
-      by email or paste it into an Instagram DM. Nothing is submitted anywhere from this page.</p>
+    <p class="lede" style="margin-top:14px">This is for Steam codes and anything you want to ask about
+      first &mdash; setup sessions can be <a href="#shop" style="color:var(--red-hot)">booked and paid for
+      directly</a>. Fill it in and it builds your message; send it by email or paste it into a DM.
+      Nothing is submitted from this page.</p>
 
     <div class="order">
       <form class="form" id="orderForm">
@@ -366,7 +413,7 @@ p{margin:0}
           <label for="product">Product</label>
           <select id="product" name="product">
             <option value="Steam wallet code">Steam wallet code</option>
-            <option value="WMMT6 PC setup">WMMT6 PC setup session</option>
+            <option value="WMMT6 PC setup - question before booking">WMMT6 setup &mdash; a question first</option>
             <option value="Something else">Something else</option>
           </select>
         </div>
@@ -524,6 +571,12 @@ p{margin:0}
            during the session.</p>
       </details>
       <details>
+        <summary>How does booking a setup session work?</summary>
+        <p>Pay, then pick a slot from my calendar &mdash; times are shown in your own timezone, so
+           there's no maths to do. You'll get a confirmation with the connection details and I'll be
+           there at the booked time. If nothing on the calendar suits you, message me and I'll open a slot.</p>
+      </details>
+      <details>
         <summary>Is it safe to let you remote into my PC?</summary>
         <p>You stay at the keyboard the whole time and watch everything I do. Sessions run over AnyDesk
            or TeamViewer, you approve the connection, and you can end it in one click at any point.
@@ -582,6 +635,40 @@ p{margin:0}
 <script>
 (function () {
   "use strict";
+  // ---- Instant booking for the WMMT6 setup ---------------------------
+  // Paste your two links and a price here; the instant-book buttons go
+  // live the moment you do. Leave them empty and those buttons quietly
+  // fall back to the enquiry form, so the page is never broken or
+  // pointing somewhere dead.
+  //
+  //   PAY_URL   Your payment link (Stripe Payment Link, PayPal button...).
+  //             Set its after-payment redirect to BOOK_URL and buyers land
+  //             on the calendar the instant they've paid.
+  //   BOOK_URL  Your booking page. Cal.com and Calendly are both free and
+  //             both show slots in the visitor's own timezone, which is
+  //             what makes this work for buyers on another continent.
+  //   PRICE     Shown on the product card, e.g. "S$25".
+  var PAY_URL  = "";
+  var BOOK_URL = "";
+  var PRICE    = "";
+  // ---------------------------------------------------------------------
+
+  var priceEl = document.getElementById("wmmtPrice");
+  if (PRICE && priceEl) { priceEl.textContent = PRICE; priceEl.hidden = false; }
+
+  [document.getElementById("wmmtPay"), document.getElementById("pathPay")]
+    .forEach(function (b) {
+      if (!b || !PAY_URL) { return; }
+      b.href = PAY_URL; b.target = "_blank"; b.rel = "noopener";
+      b.textContent = PRICE ? "Pay & book \u2014 " + PRICE : "Pay & book";
+    });
+
+  var bookBtn = document.getElementById("wmmtBook");
+  if (bookBtn && BOOK_URL) {
+    bookBtn.href = BOOK_URL; bookBtn.target = "_blank"; bookBtn.rel = "noopener";
+    bookBtn.hidden = false;
+  }
+
   var user = "wangjiayijohnny", host = "gmail.com", addr = user + "@" + host;
   var mail = document.getElementById("mailLink");
   if (mail) { mail.href = "mailto:" + addr; mail.textContent = addr; }
