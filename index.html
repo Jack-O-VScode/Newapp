@@ -355,7 +355,6 @@ p{margin:0}
           </div>
           <div class="prod-actions">
             <a class="btn btn-primary" id="wmmtPay" href="#order">Book a session</a>
-            <a class="btn btn-ghost" id="wmmtBook" href="#order" hidden>Check availability</a>
           </div>
           <p class="prod-foot">Questions before you book? <a href="#order">Message me first</a>.</p>
         </div>
@@ -635,21 +634,15 @@ p{margin:0}
 <script>
 (function () {
   "use strict";
-  // ---- Instant booking for the WMMT6 setup ---------------------------
-  // Paste your two links and a price here; the instant-book buttons go
-  // live the moment you do. Leave them empty and those buttons quietly
-  // fall back to the enquiry form, so the page is never broken or
-  // pointing somewhere dead.
+  // ---- Booking for the WMMT6 setup -----------------------------------
+  // BOOK_URL is the Cal.com page. Cal handles slot choice and payment in
+  // one flow, so this is the only link needed. Empty = the buttons fall
+  // back to the enquiry form rather than pointing somewhere dead.
   //
-  //   PAY_URL   Your payment link (Stripe Payment Link, PayPal button...).
-  //             Set its after-payment redirect to BOOK_URL and buyers land
-  //             on the calendar the instant they've paid.
-  //   BOOK_URL  Your booking page. Cal.com and Calendly are both free and
-  //             both show slots in the visitor's own timezone, which is
-  //             what makes this work for buyers on another continent.
-  //   PRICE     Shown on the product card, e.g. "S$25".
-  var PAY_URL  = "";
-  var BOOK_URL = "";
+  // PRICE appears on the card and inside the button. Leave it empty until
+  // Stripe is actually connected on the Cal event - the button then reads
+  // "Book a session" instead of promising a payment step that won't happen.
+  var BOOK_URL = "https://cal.com/wang-jiayi-johnny-dqqk6b/wmmt6-setup";
   var PRICE    = "";
   // ---------------------------------------------------------------------
 
@@ -658,16 +651,10 @@ p{margin:0}
 
   [document.getElementById("wmmtPay"), document.getElementById("pathPay")]
     .forEach(function (b) {
-      if (!b || !PAY_URL) { return; }
-      b.href = PAY_URL; b.target = "_blank"; b.rel = "noopener";
-      b.textContent = PRICE ? "Pay & book \u2014 " + PRICE : "Pay & book";
+      if (!b || !BOOK_URL) { return; }
+      b.href = BOOK_URL; b.target = "_blank"; b.rel = "noopener";
+      b.textContent = PRICE ? "Pay & book \u2014 " + PRICE : "Book a session";
     });
-
-  var bookBtn = document.getElementById("wmmtBook");
-  if (bookBtn && BOOK_URL) {
-    bookBtn.href = BOOK_URL; bookBtn.target = "_blank"; bookBtn.rel = "noopener";
-    bookBtn.hidden = false;
-  }
 
   var user = "wangjiayijohnny", host = "gmail.com", addr = user + "@" + host;
   var mail = document.getElementById("mailLink");

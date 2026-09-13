@@ -17,6 +17,10 @@ Everything is in `index.html`. The bits you'll most likely want to change:
 - **Contact** — Instagram handle appears in 3 places; email is assembled in
   the script at the bottom to slow down scrapers.
 - **Products** — the two `<article class="prod">` blocks.
+- **Booking** — `BOOK_URL` and `PRICE` at the top of the script. BOOK_URL is
+  the Cal.com page (it handles slot choice and payment together). Set PRICE
+  only once Stripe is connected on that Cal event; until then the button
+  says "Book a session" rather than promising a payment step.
 
 ## Publishing to GitHub Pages
 
