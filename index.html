@@ -28,6 +28,8 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.sec[id],.hero[id]{scroll-margin-top:16px}
 body{
   margin:0; background:var(--ink); color:var(--bone);
   font-family:var(--body); font-size:16px; line-height:1.6;
@@ -217,6 +219,14 @@ p{margin:0}
 .foot a:hover{color:var(--red-hot)}
 .foot-base{margin-top:30px;padding-top:20px;border-top:1px solid var(--line-soft);
   font-size:12.5px;color:var(--smoke-2);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(16px);
+    transition:opacity .55s cubic-bezier(.2,.6,.2,1),transform .55s cubic-bezier(.2,.6,.2,1)}
+  .reveal.shown{opacity:1;transform:none}
+  .reveal:nth-child(2){transition-delay:.07s}
+  .reveal:nth-child(3){transition-delay:.14s}
+  .reveal:nth-child(4){transition-delay:.21s}
+}
 .linkish{background:none;border:0;padding:0;font:inherit;color:var(--smoke);cursor:pointer;text-align:left}
 .linkish:hover{color:var(--red-hot)}
 .handles{font-size:13.5px;color:var(--smoke-2);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -268,7 +278,7 @@ p{margin:0}
       <div><b class="gold">4.75</b><small>Average rating</small></div>
       <div><b>64</b><small>Reviews</small></div>
       <div><b class="go">Verified</b><small>Professional seller</small></div>
-      <div><b>1y 7m</b><small>Selling since</small></div>
+      <div><b>1y 7m</b><small>On Carousell</small></div>
     </div>
   </div>
 </section>
@@ -622,6 +632,29 @@ p{margin:0}
   document.getElementById("copyBtn").addEventListener("click", function () {
     copyText(compose(), "Order copied — paste it into a DM.");
   });
+
+  // Gentle lift as blocks scroll in. Only applied to things that start below
+  // the fold, so the page is complete on first paint either way.
+  if (window.IntersectionObserver &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var blocks = [].slice.call(document.querySelectorAll(
+      ".prod, .step, .rev, .form, .pay, .rating-head, .faq details"));
+    var below = blocks.filter(function (el) {
+      return el.getBoundingClientRect().top > window.innerHeight * 0.92;
+    });
+    if (below.length) {
+      below.forEach(function (el) { el.classList.add("reveal"); });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            en.target.classList.add("shown");
+            io.unobserve(en.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+      below.forEach(function (el) { io.observe(el); });
+    }
+  }
 
   document.addEventListener("click", function (e) {
     var el = (e.target && e.target.closest) ? e.target.closest("[data-copy]") : null;
