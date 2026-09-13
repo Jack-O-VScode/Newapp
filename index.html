@@ -432,10 +432,18 @@ p{margin:0}
           </div>
         </div>
         <div class="field">
-          <label for="contact">Your contact <span style="color:var(--red-hot)">*</span></label>
+          <label for="contact">Your username <span style="color:var(--red-hot)">*</span></label>
           <input id="contact" name="contact" type="text" required
-                 placeholder="Instagram handle or Discord" autocomplete="off">
-          <span class="hint">However you'd prefer I reply.</span>
+                 placeholder="@yourhandle" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="platform">Which app is that? <span style="color:var(--red-hot)">*</span></label>
+          <select id="platform" name="platform" required>
+            <option value="" disabled selected>Pick one</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Discord">Discord</option>
+          </select>
+          <span class="hint">So I message you in the right place.</span>
         </div>
         <div class="field">
           <label for="email">Email address <span style="color:var(--red-hot)">*</span></label>
@@ -693,7 +701,9 @@ p{margin:0}
       lines.push("Region: " + (d.get("region") || "(not specified)"));
       lines.push("Amount: " + (d.get("amount") || "(not specified)"));
     }
-    lines.push("Contact me on: " + (d.get("contact") || "(not specified)"));
+    var handle = d.get("contact") || "(not specified)";
+    var platform = d.get("platform") || "";
+    lines.push("Contact me on: " + handle + (platform ? " (" + platform + ")" : ""));
     lines.push("Email: " + (d.get("email") || "(not specified)"));
     if (d.get("notes")) { lines.push("", "Notes: " + d.get("notes")); }
     return lines.join("\n");
@@ -742,6 +752,7 @@ p{margin:0}
         region: d.get("region") || "-",
         amount: d.get("amount") || "-",
         contact: d.get("contact"),
+        platform: d.get("platform"),
         email: d.get("email"),
         notes: d.get("notes") || "-",
         message: compose()
