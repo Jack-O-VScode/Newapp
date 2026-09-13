@@ -1,5 +1,7 @@
 # APEX MART
 
+Live at <https://apex-mart.pages.dev/> (Cloudflare Pages, deploys on push).
+
 Promo site for APEX MART — Steam wallet codes and WMMT6 PC setup.
 Single static HTML page, no build step, no dependencies.
 
