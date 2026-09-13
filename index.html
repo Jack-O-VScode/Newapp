@@ -720,6 +720,22 @@ p{margin:0}
 
   var sendBtn = document.getElementById("sendBtn");
 
+  // Spam guards. Neither stops a determined person - the access key is
+  // public - but together they block scripted abuse and button-mashing,
+  // which is what actually burns the monthly submission quota.
+  var pageLoadedAt = Date.now();
+  var MIN_FILL_MS = 3000;    // a bot submits instantly; typing takes longer
+  var COOLDOWN_MS = 60000;   // one order per browser per minute
+
+  function lastSentAt() {
+    try { return parseInt(localStorage.getItem("apexmart_last_order") || "0", 10) || 0; }
+    catch (err) { return 0; }
+  }
+  function markSent() {
+    try { localStorage.setItem("apexmart_last_order", String(Date.now())); }
+    catch (err) { /* private browsing: the cooldown just won't persist */ }
+  }
+
   function say(msg, isError) {
     status.textContent = msg;
     status.classList.toggle("err", !!isError);
@@ -735,6 +751,18 @@ p{margin:0}
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!FORM_KEY) { mailtoFallback(); return; }
+
+    if (Date.now() - pageLoadedAt < MIN_FILL_MS) {
+      say("That was quick \u2014 give it a second and press Send again.", true);
+      return;
+    }
+
+    var waitMs = COOLDOWN_MS - (Date.now() - lastSentAt());
+    if (waitMs > 0) {
+      say("Order already sent. Give it " + Math.ceil(waitMs / 1000) +
+          "s before sending another, or just DM me.", true);
+      return;
+    }
 
     var d = new FormData(form);
     sendBtn.disabled = true;
@@ -761,6 +789,7 @@ p{margin:0}
       .then(function (r) { return r.json(); })
       .then(function (res) {
         if (!res || !res.success) { throw new Error("rejected"); }
+        markSent();
         form.reset();
         syncFields();
         say("Order sent. I'll get back to you on the contact you gave \u2014 usually within a few hours.");
