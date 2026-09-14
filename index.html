@@ -134,6 +134,14 @@ p{margin:0}
   font-variant-numeric:tabular-nums}
 .prod-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:4px}
 .prod-foot{font-size:13px;color:var(--smoke-2)}
+.price-approx{font-family:var(--mono);font-size:11px;color:var(--smoke-2);letter-spacing:.04em;
+  display:block;text-align:right;margin-top:3px}
+.pricing{border:1px solid var(--line);background:var(--ink);padding:15px 17px;
+  display:flex;flex-direction:column;gap:6px}
+.pricing b{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:.02em;color:var(--bone)}
+.pricing b em{font-style:normal;color:var(--red-hot)}
+.pricing small{font-size:13.5px;color:var(--smoke)}
+.est{color:var(--go)!important}
 .prod-foot a{color:var(--red-hot)}
 .prod .btn{align-self:flex-start}
 
@@ -326,13 +334,20 @@ p{margin:0}
       <article class="prod">
         <div class="prod-art art-steam"></div>
         <div class="prod-body">
-          <span class="tag">Most ordered</span>
+          <div class="prod-head">
+            <span class="tag">Most ordered</span>
+            <span class="price">+10%</span>
+          </div>
           <h3>Steam wallet codes</h3>
-          <p>Tell me the region and the amount, and I'll quote you &mdash; including regions most
-             local sellers won't touch.</p>
+          <p>No haggling and no hidden fees &mdash; you pay the credit you want plus ten percent,
+             in any region, including ones most local sellers won't touch.</p>
+          <div class="pricing">
+            <b>Face value <em>+ 10%</em></b>
+            <small>Want S$10 of Steam credit? You pay S$11. That's the whole pricing model.</small>
+          </div>
           <ul class="spec">
             <li><span><b>Any region</b> &mdash; SG, MY, US, TR, AR, EU and more</span></li>
-            <li><span><b>Any denomination</b> &mdash; you name the amount, I quote it</span></li>
+            <li><span><b>Any denomination</b> &mdash; you name the amount</span></li>
             <li><span><b>Code sent over chat</b> &mdash; typically within hours of payment</span></li>
             <li><span><b>Photo proof</b> of the code before you pay, if you ask</span></li>
           </ul>
@@ -341,7 +356,7 @@ p{margin:0}
               account set to that same region. Tell me your account's region and I'll make sure you get the right one.</p>
           </div>
           <div class="prod-actions">
-            <a class="btn btn-primary" href="#order">Get a quote</a>
+            <a class="btn btn-primary" href="#order">Order now</a>
           </div>
         </div>
       </article>
@@ -351,7 +366,8 @@ p{margin:0}
         <div class="prod-body">
           <div class="prod-head">
             <span class="tag">Book instantly</span>
-            <span class="price" id="wmmtPrice" hidden></span>
+            <span><span class="price" id="wmmtPrice" hidden></span>
+              <span class="price-approx" id="wmmtApprox" hidden></span></span>
           </div>
           <h3>WMMT6 PC setup</h3>
           <p>A guided remote session that takes you from an empty PC to sitting on the start line.
@@ -361,6 +377,7 @@ p{margin:0}
             <li><span><b>Handled end to end</b> &mdash; nothing left for you to figure out afterwards</span></li>
             <li><span><b>Controller or sim racing wheel</b> connected, mapped and tested</span></li>
             <li><span><b>Windows Quick Assist</b> &mdash; nothing to download, it's already on your PC</span></li>
+            <li><span><b>Booked in your own timezone</b> &mdash; I'm in Singapore, UTC+8</span></li>
           </ul>
           <div class="note">
             <p><b>Before we start:</b> close anything private on your PC. You stay at the keyboard,
@@ -383,16 +400,16 @@ p{margin:0}
     <div class="paths">
       <div class="path">
         <p class="eyebrow">Steam wallet codes</p>
-        <h3>Quoted over chat</h3>
-        <p class="path-why">Region and amount change what a code costs me, so these are priced per
-          order rather than off a shelf. It also means I can tell you before you pay whether the
-          region you want is actually available.</p>
+        <h3>Ordered over chat</h3>
+        <p class="path-why">Priced at face value plus ten percent, whatever the region. It goes
+          through chat so I can confirm the region you want is actually in stock before you pay
+          anything.</p>
         <ol class="path-steps">
           <li>Tell me the region and the amount you want</li>
-          <li>I come back with a price and a payment link</li>
+          <li>I confirm the total and send a payment link</li>
           <li>Code sent over chat, usually within hours</li>
         </ol>
-        <a class="btn btn-ghost" href="#order">Get a quote</a>
+        <a class="btn btn-ghost" href="#order">Order now</a>
       </div>
       <div class="path path--instant">
         <p class="eyebrow">WMMT6 PC setup</p>
@@ -439,6 +456,7 @@ p{margin:0}
             <label for="amount">Amount</label>
             <input id="amount" name="amount" type="text" placeholder="e.g. 50 SGD, 500 TRY" autocomplete="off">
             <span class="hint">Any denomination &mdash; type what you want.</span>
+            <span class="hint est" id="payEstimate" hidden></span>
           </div>
         </div>
         <div class="field">
@@ -585,6 +603,13 @@ p{margin:0}
            picking a time slot.</p>
       </details>
       <details>
+        <summary>How much do Steam codes cost?</summary>
+        <p>Face value plus ten percent. Want S$10 of credit, you pay S$11 &mdash; no service fee, no
+           markup that changes depending on how keen you seem. For codes in other regions I convert
+           the cost first and apply the same ten percent, and I'll always confirm the exact total in
+           chat before you pay anything.</p>
+      </details>
+      <details>
         <summary>Why is my Steam code region-locked?</summary>
         <p>That's how Valve issues them &mdash; a wallet code only redeems on an account registered to the
            same region. It isn't a restriction I add. Tell me your account's region when you order and
@@ -599,7 +624,7 @@ p{margin:0}
       <details>
         <summary>How does booking a setup session work?</summary>
         <p>Pay, then pick a slot from my calendar &mdash; times are shown in your own timezone, so
-           there's no maths to do. You'll get a confirmation with the connection details and I'll be
+           there's no maths to do (I'm in Singapore, UTC+8, if you're wondering). You'll get a confirmation with the connection details and I'll be
            there at the booked time. If nothing on the calendar suits you, message me and I'll open a slot.</p>
       </details>
       <details>
@@ -697,8 +722,16 @@ p{margin:0}
   var PRICE    = "S$25";
   // ---------------------------------------------------------------------
 
+  // Rough conversion so an overseas buyer isn't reaching for a currency app.
+  // Update if rates move a long way; it's signposted as approximate.
+  var PRICE_APPROX = "approx. US$19";
+
   var priceEl = document.getElementById("wmmtPrice");
-  if (PRICE && priceEl) { priceEl.textContent = PRICE; priceEl.hidden = false; }
+  var approxEl = document.getElementById("wmmtApprox");
+  if (PRICE && priceEl) {
+    priceEl.textContent = PRICE; priceEl.hidden = false;
+    if (approxEl && PRICE_APPROX) { approxEl.textContent = PRICE_APPROX; approxEl.hidden = false; }
+  }
 
   [document.getElementById("wmmtPay"), document.getElementById("pathPay")]
     .forEach(function (b) {
@@ -725,6 +758,23 @@ p{margin:0}
   }
   productEl.addEventListener("change", syncFields);
   syncFields();
+
+  // Live "+10%" so nobody has to work out what they'll actually pay.
+  var amountEl = document.getElementById("amount");
+  var estEl = document.getElementById("payEstimate");
+  function updateEstimate() {
+    var raw = amountEl.value || "";
+    var m = raw.match(/(\d+(?:[.,]\d+)?)/);
+    if (!m) { estEl.hidden = true; return; }
+    var n = parseFloat(m[1].replace(",", "."));
+    if (!isFinite(n) || n <= 0) { estEl.hidden = true; return; }
+    var total = Math.round(n * 1.1 * 100) / 100;
+    var unit = raw.replace(m[0], "").trim();
+    estEl.textContent = "You pay \u2248 " + total + (unit ? " " + unit : "") + " (face value + 10%)";
+    estEl.hidden = false;
+  }
+  amountEl.addEventListener("input", updateEstimate);
+  updateEstimate();
 
   function compose() {
     var d = new FormData(form), lines = ["Hi, I'd like to order:", ""];
