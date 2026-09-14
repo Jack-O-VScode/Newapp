@@ -272,7 +272,10 @@ p{margin:0}
 .linkish:hover{color:var(--red-hot)}
 .handles{font-size:13.5px;color:var(--smoke-2);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .copy-handle{font-family:var(--mono);font-size:13px;background:var(--ink-3);border:1px solid var(--line);
-  color:var(--bone);padding:5px 10px;cursor:pointer;transition:.16s ease}
+  color:var(--bone);padding:5px 10px;cursor:pointer;transition:.16s ease;
+  text-decoration:none;display:inline-block;line-height:1.4}
+.copy-handle.solid{background:var(--red-dim);border-color:var(--red);color:#fff}
+.copy-handle.solid:hover{background:var(--red);border-color:var(--red-hot);color:#fff}
 .copy-handle:hover{border-color:var(--red);color:var(--red-hot)}
 </style>
 </head>
@@ -490,7 +493,10 @@ p{margin:0}
           <a class="btn btn-ghost" href="https://instagram.com/x_license_x" target="_blank" rel="noopener">DM on Instagram</a>
         </div>
         <p class="status" id="status" role="status"></p>
-        <p class="handles">Prefer Discord? Add me &mdash;
+        <p class="handles">On Discord?
+          <a class="copy-handle solid" href="https://discord.gg/SDFX7ESBhq"
+             target="_blank" rel="noopener">Join the APEX MART server</a>
+          <span>or add</span>
           <button class="copy-handle" type="button" data-copy="x_license_x">x_license_x</button></p>
       </form>
 
@@ -671,7 +677,8 @@ p{margin:0}
         <ul>
           <li><a id="mailLink" href="#">Email</a></li>
           <li><a href="https://instagram.com/x_license_x" target="_blank" rel="noopener">Instagram @x_license_x</a></li>
-          <li><button class="linkish" type="button" data-copy="x_license_x">Discord x_license_x</button></li>
+          <li><a href="https://discord.gg/SDFX7ESBhq" target="_blank" rel="noopener">Discord server</a></li>
+          <li><button class="linkish" type="button" data-copy="x_license_x">or add x_license_x</button></li>
           <li><a href="https://www.carousell.sg/u/apex_mart/?source=me_page" target="_blank" rel="noopener">Carousell @apex_mart</a></li>
         </ul>
       </div>
