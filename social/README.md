@@ -24,7 +24,8 @@ editor at upload, since that's where the algorithmic signal comes from.
 
 ## Tutorial
 
-`reel-how-to-order.mp4` — 1080x1920, ~14s. A real Playwright recording of
+`reel-website-sale.mp4` — 1080x1920, ~31s, launch-sale framing.
+`reel-how-to-order.mp4` — 1080x1920, ~14s, faster cut of the same flow. A real Playwright recording of
 the live page on a phone viewport with a drawn cursor, not a mockup. The
 Web3Forms endpoint is stubbed during recording so filming never sends a
 real order. Regenerate after any change to the order form, or the tutorial
