@@ -62,18 +62,6 @@ p{margin:0}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);margin:0}
 .lede{color:var(--smoke);font-size:17px;max-width:62ch}
 
-/* ---------- launch promo ticker ---------- */
-.promo{background:var(--red);overflow:hidden;border-bottom:1px solid #71080f}
-.promo-track{display:flex;width:max-content}
-@media (prefers-reduced-motion:no-preference){
-  .promo-track{animation:promoslide 30s linear infinite}
-  @keyframes promoslide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-}
-.promo-run{display:flex;flex:none;white-space:nowrap;font-family:var(--mono);font-size:12px;
-  letter-spacing:.17em;text-transform:uppercase;color:#fff;line-height:42px}
-.promo-run span{padding:0 22px}
-.promo-run i{font-style:normal;opacity:.5}
-
 /* ---------- header ---------- */
 .top{position:sticky;top:0;z-index:20;background:rgba(8,8,10,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
 .top .wrap{display:flex;align-items:center;gap:16px;min-height:60px}
@@ -226,6 +214,18 @@ p{margin:0}
 .paylist li{background:var(--ink-3);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px}
 .paylist span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke-2)}
 
+/* ---------- referrals ---------- */
+.ref-grid{display:grid;gap:20px;margin-top:30px;align-items:stretch}
+@media (min-width:780px){.ref-grid{grid-template-columns:320px 1fr}}
+.ref-pay{background:var(--ink-2);border:1px solid var(--red-dim);padding:30px 28px;
+  display:flex;flex-direction:column;gap:8px;justify-content:center}
+.ref-pay b{font-family:var(--display);font-weight:900;font-size:clamp(64px,13vw,92px);line-height:.85;
+  color:var(--red-hot);font-variant-numeric:tabular-nums}
+.ref-pay small{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--smoke);line-height:1.7}
+.ref-steps{background:var(--ink-2);border:1px solid var(--line-soft);padding:26px;
+  display:flex;flex-direction:column;gap:18px}
+
 /* ---------- reviews ---------- */
 .rating-head{display:flex;flex-wrap:wrap;gap:26px;align-items:center;margin-top:26px;
   background:var(--ink-2);border:1px solid var(--line-soft);padding:24px}
@@ -294,13 +294,6 @@ p{margin:0}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<div class="promo">
-  <div class="promo-track">
-    <span class="promo-run"><span>10% off everything</span><i>&#9670;</i><span>Launch week only</span><i>&#9670;</i><span>Discount applied at payment</span><i>&#9670;</i><span>Order through this site</span><i>&#9670;</i><span>Steam credit &amp; WMMT6 setup</span><i>&#9670;</i></span>
-    <span class="promo-run" aria-hidden="true"><span>10% off everything</span><i>&#9670;</i><span>Launch week only</span><i>&#9670;</i><span>Discount applied at payment</span><i>&#9670;</i><span>Order through this site</span><i>&#9670;</i><span>Steam credit &amp; WMMT6 setup</span><i>&#9670;</i></span>
-  </div>
-</div>
-
 <header class="top">
   <div class="wrap">
     <a class="top-mark" href="#top">APEX<span> MART</span></a>
@@ -308,6 +301,7 @@ p{margin:0}
       <a href="#shop">Shop</a>
       <a href="#order">Order</a>
       <a href="#reviews">Reviews</a>
+      <a class="hide-sm" href="#referral">Refer</a>
       <a class="hide-sm" href="#faq">FAQ</a>
     </nav>
   </div>
@@ -502,6 +496,13 @@ p{margin:0}
           <span class="hint">A backup, in case your handle doesn't reach you.</span>
         </div>
         <div class="field">
+          <label for="referrer">Referred by</label>
+          <input id="referrer" name="referrer" type="text"
+                 placeholder="Their handle, if someone sent you" autocomplete="off">
+          <span class="hint">Optional &mdash; whoever you name gets
+            <a href="#referral" style="color:var(--red-hot)">S$5</a>.</span>
+        </div>
+        <div class="field">
           <label for="notes">Anything else</label>
           <textarea id="notes" name="notes" placeholder="Timezone, preferred payment method, deadline&hellip;"></textarea>
         </div>
@@ -533,6 +534,33 @@ p{margin:0}
             someone you've never met.</p>
         </div>
       </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="referral">
+  <div class="wrap">
+    <p class="eyebrow">Referrals</p>
+    <h2>Send a friend, get S$5</h2>
+    <p class="lede" style="margin-top:14px">No codes to remember and nothing to sign up for. If someone
+      buys because you sent them, you get paid &mdash; every time, not just the first.</p>
+
+    <div class="ref-grid">
+      <div class="ref-pay">
+        <b>S$5</b>
+        <small>cash, per friend<br>who buys</small>
+      </div>
+      <div class="ref-steps">
+        <ol class="path-steps">
+          <li>Your friend puts your handle in the <b>&ldquo;Referred by&rdquo;</b> box when they order</li>
+          <li>I complete their order as normal</li>
+          <li>You get S$5 &mdash; PayNow, PayPal or Revolut, your pick</li>
+        </ol>
+        <div class="note">
+          <p><b>The fine print, such as it is:</b> paid once their order is complete, so nothing to claim
+            if a deal falls through. No referring yourself, and no cap on how many friends you send.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -666,6 +694,13 @@ p{margin:0}
            You generate the code and give it to me, so the connection only happens because you started it.
            You stay at the keyboard watching everything I do and can end the session in one click at any
            point. Close anything private before we begin &mdash; I'd rather you were careful.</p>
+      </details>
+      <details>
+        <summary>How does the S$5 referral work?</summary>
+        <p>Your friend types your handle into the &ldquo;Referred by&rdquo; box when they place an order.
+           Once I've completed it, I send you S$5 by PayNow, PayPal or Revolut &mdash; whichever you
+           prefer. It applies every time someone you sent buys, not just their first order, and there's
+           no limit on how many people you can refer. You just can't refer yourself.</p>
       </details>
       <details>
         <summary>What if something goes wrong?</summary>
@@ -813,6 +848,7 @@ p{margin:0}
     var platform = d.get("platform") || "";
     lines.push("Contact me on: " + handle + (platform ? " (" + platform + ")" : ""));
     lines.push("Email: " + (d.get("email") || "(not specified)"));
+    if (d.get("referrer")) { lines.push("Referred by: " + d.get("referrer")); }
     if (d.get("notes")) { lines.push("", "Notes: " + d.get("notes")); }
     return lines.join("\n");
   }
@@ -890,6 +926,7 @@ p{margin:0}
         contact: d.get("contact"),
         platform: d.get("platform"),
         email: d.get("email"),
+        referrer: d.get("referrer") || "-",
         notes: d.get("notes") || "-",
         message: compose()
       })
