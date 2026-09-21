@@ -24,6 +24,7 @@ editor at upload, since that's where the algorithmic signal comes from.
 
 ## Tutorial
 
+`reel-referral.mp4` — 1080x1920, ~33s, S$5 referral walkthrough.
 `reel-website-sale.mp4` — 1080x1920, ~31s, launch-sale framing.
 `reel-how-to-order.mp4` — 1080x1920, ~14s, faster cut of the same flow. A real Playwright recording of
 the live page on a phone viewport with a drawn cursor, not a mockup. The
