@@ -499,8 +499,6 @@ p{margin:0}
           <label for="referrer">Referred by</label>
           <input id="referrer" name="referrer" type="text"
                  placeholder="Their handle, if someone sent you" autocomplete="off">
-          <span class="hint">Optional &mdash; whoever you name gets
-            <a href="#referral" style="color:var(--red-hot)">S$5</a>.</span>
         </div>
         <div class="field">
           <label for="notes">Anything else</label>
@@ -542,23 +540,25 @@ p{margin:0}
   <div class="wrap">
     <p class="eyebrow">Referrals</p>
     <h2>Send a friend, get S$5</h2>
-    <p class="lede" style="margin-top:14px">No codes to remember and nothing to sign up for. If someone
-      buys because you sent them, you get paid &mdash; every time, not just the first.</p>
+    <p class="lede" style="margin-top:14px">On WMMT6 PC setups. No codes to remember and nothing to
+      sign up for &mdash; if someone books because you sent them, you get paid. Every time, not just
+      the first.</p>
 
     <div class="ref-grid">
       <div class="ref-pay">
         <b>S$5</b>
-        <small>cash, per friend<br>who buys</small>
+        <small>cash, per friend who<br>books a WMMT6 setup</small>
       </div>
       <div class="ref-steps">
         <ol class="path-steps">
-          <li>Your friend puts your handle in the <b>&ldquo;Referred by&rdquo;</b> box when they order</li>
-          <li>I complete their order as normal</li>
+          <li>Your friend names you when they book their WMMT6 setup</li>
+          <li>I run the session as normal</li>
           <li>You get S$5 &mdash; PayNow, PayPal or Revolut, your pick</li>
         </ol>
         <div class="note">
-          <p><b>The fine print, such as it is:</b> paid once their order is complete, so nothing to claim
-            if a deal falls through. No referring yourself, and no cap on how many friends you send.</p>
+          <p><b>The fine print, such as it is:</b> WMMT6 setups only, not Steam codes. Paid once the
+            session is done, so nothing to claim if a booking falls through. No referring yourself, and
+            no cap on how many friends you send.</p>
         </div>
       </div>
     </div>
@@ -697,10 +697,10 @@ p{margin:0}
       </details>
       <details>
         <summary>How does the S$5 referral work?</summary>
-        <p>Your friend types your handle into the &ldquo;Referred by&rdquo; box when they place an order.
-           Once I've completed it, I send you S$5 by PayNow, PayPal or Revolut &mdash; whichever you
-           prefer. It applies every time someone you sent buys, not just their first order, and there's
-           no limit on how many people you can refer. You just can't refer yourself.</p>
+        <p>It applies to <b>WMMT6 PC setups</b>, not Steam codes. Your friend names you when they book,
+           and once the session is done I send you S$5 by PayNow, PayPal or Revolut &mdash; whichever you
+           prefer. It pays out every time someone you sent books, not just their first, and there's no
+           limit on how many people you can refer. You just can't refer yourself.</p>
       </details>
       <details>
         <summary>What if something goes wrong?</summary>
@@ -812,10 +812,18 @@ p{margin:0}
   var regionField = document.getElementById("region").closest(".field");
   var amountField = document.getElementById("amount").closest(".field");
 
+  var referrerEl = document.getElementById("referrer");
+  var referrerField = referrerEl.closest(".field");
+
   function syncFields() {
     var steam = productEl.value === "Steam wallet code";
     regionField.hidden = !steam;
     amountField.hidden = !steam;
+    // Referrals are WMMT6 only, so the field is hidden and cleared elsewhere -
+    // a stale value in a hidden input would still post with the order.
+    var wmmt = productEl.value.indexOf("WMMT6") === 0;
+    referrerField.hidden = !wmmt;
+    if (!wmmt) { referrerEl.value = ""; }
   }
   productEl.addEventListener("change", syncFields);
   syncFields();
